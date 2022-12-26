@@ -8,6 +8,7 @@ import com.smartlocker.generator.ReservationGenerator;
 import com.smartlocker.repository.LockerRepo;
 import com.smartlocker.repository.ReservationRepo;
 import com.smartlocker.service.BookingService;
+import com.smartlocker.service.LogingService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,22 +33,6 @@ public class BookingServiceTestSuite {
         ReservationRepo.INSTANCE.getReservationsList().clear();
     }
 
-    /*
-    @Test
-    public void availabilityCheckForLockerTest() {
-
-     ReservationRepo.INSTANCE.getReservationsList().clear();
-        reservationGenerator.generateExampleReservationData();
-        for(Locker l: LockerRepo.INSTANCE.isSize(Size.S)) {
-            System.out.println(l);
-            System.out.println(bookingService.availabilityCheckForLockerXX(l, start, end));
-
-        }
-
-     ReservationRepo.INSTANCE.getReservationsList().clear();
-    }
-
-     */
 
     @Test
     public void availabilityCheck() {
@@ -88,6 +73,15 @@ public class BookingServiceTestSuite {
             System.out.println(lrl);
         }
 
+        ReservationRepo.INSTANCE.getReservationsList().clear();
+    }
+
+    @Test
+    public void reservationsForUser() {
+        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationGenerator.generateExampleReservationData();
+        List<Reservation> list = bookingService.getReservationsForUser(LogingService.getInstance().generateUserForDemo());
+        System.out.println(list);
         ReservationRepo.INSTANCE.getReservationsList().clear();
     }
 

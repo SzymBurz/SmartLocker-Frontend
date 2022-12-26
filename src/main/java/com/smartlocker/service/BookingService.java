@@ -64,54 +64,7 @@ public class BookingService {
         return isFree;
 
     }
-    /*
 
-    //public List<Period> availabilityCheckForLocker(Locker locker, LocalDateTime start, LocalDateTime end) {
-    public List<Period> availabilityCheckForLocker(Locker locker) {
-
-        List<Period> availabilityList = new ArrayList<>();
-
-        LocalDateTime now = LocalDateTime.now();
-
-        List<Reservation> reservationsList = reservationRepo.getReservationsList();
-
-
-        List<Reservation> reservationsForLocker = reservationsList.stream()
-                .filter(e -> e.getLocker() == locker)
-                .collect(Collectors.toList());
-
-
-        System.out.println(reservationsForLocker);
-  /*
-        //extracting reservations for given locker
-        ListIterator<Reservation> listIterator =
-                reservationsList.stream()
-                        .filter(e -> e.getLocker() == locker)
-                        .collect(Collectors.toList())
-                        .listIterator(reservationsList.size());
-
-
-
-
-        //creating periods of time when locker is free
-        while (listIterator.hasPrevious()) {
-            Reservation r = listIterator.previous();
-            if(r.getStart().isAfter(now) && !listIterator.hasNext()) {
-                availabilityList.add(new Period(r.getEnd(), r.getEnd().plusDays(1L)));
-            } else if(r.getStart().isAfter(now) && r.getEnd().isAfter(now)) {
-                availabilityList.add(new Period(r.getEnd(), listIterator.next().getStart()));
-            } else if (r.getStart().isBefore(now) && r.getEnd().isAfter(now)) {
-                availabilityList.add(new Period(r.getEnd(), listIterator.next().getStart()));
-            } else if (r.getEnd().isBefore(now) && listIterator.next().getStart().isAfter(now)) {
-                availabilityList.add(new Period(now, listIterator.next().getStart()));
-            }
-
-        }
-
-
-        return availabilityList;
-    }
-*/
     public Optional<LockerReservations> availabilityCheckForLockerTime(Locker locker, LocalDateTime start, LocalDateTime end) {
 
         //Cała metoda działa dla specyficznej szafki i w specyficznym czasie
@@ -140,14 +93,6 @@ public class BookingService {
                         && !(r.getEnd().isAfter(start) && r.getEnd().isBefore(end))
                         && !(r.getStart().equals(start))
                         && !(r.getEnd().equals(end))
-
-                        /*
-                        !((r.getStart().isBefore(start) || r.getStart().equals(start)) && (r.getEnd().isAfter(start) || r.getEnd().equals(end)))
-                && !(r.getStart().isAfter(start) && r.getEnd().isBefore(end))
-                && !(r.getEnd().isAfter(start) && r.getEnd().isBefore(end))
-                && !(r.getStart().isAfter(start) && r.getEnd().isBefore(end))
-                         */
-
                 ) {
 
                     list.add(r);
@@ -191,6 +136,17 @@ public class BookingService {
         }
 
         return lockerReservationsList;
+    }
+
+    //TODO: May later migrate to new class
+    public List<Reservation> getReservationsForUser(User user) {
+
+        List<Reservation> output =
+        reservationRepo.getReservationsList().stream()
+                .filter(e -> e.getUser() == user )
+                .collect(Collectors.toList());
+
+        return output;
     }
 
 }

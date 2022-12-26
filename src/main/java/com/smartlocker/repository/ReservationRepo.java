@@ -34,6 +34,7 @@ public enum ReservationRepo {
 
     public void changeReservation(int reservationId, LocalDateTime start, LocalDateTime end) {
 
+        //TODO: add collision check
         for(Reservation r: reservationsList) {
 
             if (r.getReservationId() == reservationId){

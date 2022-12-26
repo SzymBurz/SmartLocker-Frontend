@@ -8,8 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@PWA(name = "My Progressive Web Application",
-        shortName = "MyPWA")
+@PWA(name = "SmartLocker Application",
+        shortName = "SmaLoApp")
 @SpringBootApplication
 public class SmartLockerApplication {
 

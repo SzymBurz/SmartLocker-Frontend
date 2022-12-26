@@ -1,6 +1,5 @@
 package com.smartlocker;
 
-import com.smartlocker.domain.LockerPeriod;
 import com.smartlocker.domain.LockerReservations;
 import com.smartlocker.repository.LockerRepo;
 import com.smartlocker.repository.ReservationRepo;

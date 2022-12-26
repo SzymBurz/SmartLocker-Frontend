@@ -6,7 +6,13 @@ import org.springframework.stereotype.Service;
 public enum LogingService {
     INSTANCE;
 
+    User demoUser = new User("Kiemoon", "1");
+
     public User generateUserForDemo() {
-        return new User("Kiemoon", "1");
+        return demoUser;
+    }
+
+    public static LogingService getInstance() {
+        return INSTANCE;
     }
 }
