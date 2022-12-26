@@ -32,6 +32,7 @@ public class BookingView extends VerticalLayout {
     private ComboBox<Size> size;
     private Button book;
     private Dialog dialog;
+    private Dialog dialog2;
     private List<LockerReservations> gridContent;
 
 
@@ -40,12 +41,13 @@ public class BookingView extends VerticalLayout {
         this.logingService = LogingService.INSTANCE;
         this.header1 = new H2("Booking");
         this.periodGrid = new Grid<>(LockerReservations.class, false);
-        this.header2 = new H2("Details");
+        this.header2 = new H2("Available Lockers");
         this.start = new DateTimePicker("Start");
         this.end = new DateTimePicker("End");
         this.size = new ComboBox<>("Size");
         this.book = new Button("Book");
         this.dialog = new Dialog();
+        this.dialog2 = new Dialog();
         this.gridContent = new ArrayList<>();
 
 
@@ -54,9 +56,14 @@ public class BookingView extends VerticalLayout {
         configureDateTimePickers();
         configureButton();
         configureDialog();
+        configureDialog2();
 
-        add(header1, size, start, end, periodGrid, book);
+        add(header1, size, start, end, header2, periodGrid, book);
 
+    }
+
+    private void configureDialog2() {
+        dialog2.add("Reservation successfully added!");
     }
 
     private void configureDialog() {
@@ -66,7 +73,12 @@ public class BookingView extends VerticalLayout {
 
     //TODO
     private void configureButton() {
-        book.addClickListener(e -> bookingService.bookLocker(periodGrid.asSingleSelect().getValue().getLocker(), logingService.generateUserForDemo(), start.getValue(), end.getValue()));
+        book.addClickListener(e ->  { bookingService.bookLocker(periodGrid.asSingleSelect().getValue().getLocker(), logingService.generateUserForDemo(), start.getValue(), end.getValue());
+        dialog2.setOpened(true);
+        start.setReadOnly(true);
+        end.setReadOnly(true);
+        size.setReadOnly(true);
+        });
     }
 
     private void configureDateTimePickers() {
