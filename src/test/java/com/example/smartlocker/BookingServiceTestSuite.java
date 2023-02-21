@@ -12,10 +12,11 @@ import com.smartlocker.service.LogingService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@SpringBootTest
 public class BookingServiceTestSuite {
 
     @Autowired
@@ -24,7 +25,9 @@ public class BookingServiceTestSuite {
     @Autowired
     ReservationRepo reservationRepo;
 
+    @Autowired
     ReservationGenerator reservationGenerator = new ReservationGenerator();
+    @Autowired
     BookingService bookingService = new BookingService();
 
 

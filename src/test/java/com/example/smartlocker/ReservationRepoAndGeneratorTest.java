@@ -8,36 +8,39 @@ import com.smartlocker.repository.ReservationRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
+@SpringBootTest
 public class ReservationRepoAndGeneratorTest {
 
     @Autowired
     LockerRepo lockerRepo;
-
-    ReservationGenerator reservationGenerator = new ReservationGenerator();
+    @Autowired
+    ReservationGenerator reservationGenerator;
+    @Autowired
+    ReservationRepo reservationRepo;
 
     @Test
     public void repositoryGeneratorIntegrationTest() {
-        ReservationRepo.getInstance().clear();
-        ReservationRepo.getInstance();
+        reservationRepo.clear();
 
         reservationGenerator.generateExampleReservationData();
-        for(Reservation r : ReservationRepo.getInstance().getReservationsList())
+        for(Reservation r : reservationRepo.getReservationsList())
         System.out.println(r);
 
-        Assertions.assertFalse(ReservationRepo.getInstance().getReservationsList().isEmpty());
-        ReservationRepo.getInstance().clear();
+        Assertions.assertFalse(reservationRepo.getReservationsList().isEmpty());
+        reservationRepo.clear();
 
 
     }
 
     @Test
     public void addingReservation() {
-        ReservationRepo.getInstance().clear();
+        reservationRepo.clear();
         User user = new User("Kasztan", "1");
-        ReservationRepo.getInstance().add(
+        reservationRepo.add(
                 new Reservation(
                         LocalDateTime.now(),
                         LocalDateTime.now().minusHours(1L),
@@ -45,7 +48,7 @@ public class ReservationRepoAndGeneratorTest {
                         lockerRepo.getLockerById(1)
                 )
         );
-        Assertions.assertEquals(1, ReservationRepo.getInstance().getReservationsList().size());
-        ReservationRepo.getInstance().clear();
+        Assertions.assertEquals(1, reservationRepo.getReservationsList().size());
+        reservationRepo.clear();
     }
 }
