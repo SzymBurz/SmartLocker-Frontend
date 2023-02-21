@@ -5,7 +5,10 @@ import com.smartlocker.domain.User;
 import com.smartlocker.repository.LockerRepo;
 import com.smartlocker.repository.ReservationRepo;
 import com.smartlocker.service.LogingService;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,8 +20,17 @@ import java.util.Random;
 import static java.util.Optional.*;
 
 @NoArgsConstructor
-@Service
+@Component
 public class ReservationGenerator {
+
+    @Autowired
+    ReservationRepo reservationRepo;
+
+    @Autowired
+    LogingService logingService;
+
+    @Autowired
+    LockerRepo lockerRepo;
 
     public void generateExampleReservationData(){
 
@@ -26,23 +38,21 @@ public class ReservationGenerator {
         Random random = new Random();
         int dataSize = 100;
         LocalDateTime now = LocalDateTime.now();
-        User user = LogingService.INSTANCE.generateUserForDemo();
-        List<Reservation> list = ReservationRepo.INSTANCE.getReservationsList();
+        User user = logingService.generateUserForDemo();
+        List<Reservation> list = reservationRepo.getReservationsList();
         for (int i = 1; i < dataSize; i ++) {
 
             int lockerNo = random.nextInt(99);
 
-            if(findLastReservationWithLockerId(ReservationRepo.INSTANCE.getReservationsList(), lockerNo).isPresent()) {
+            if(findLastReservationWithLockerId(reservationRepo.getReservationsList(), lockerNo).isPresent()) {
 
-                LocalDateTime end = findLastReservationWithLockerId(ReservationRepo.INSTANCE.getReservationsList(), lockerNo).get().getEnd();
+                LocalDateTime end = findLastReservationWithLockerId(reservationRepo.getReservationsList(), lockerNo).get().getEnd();
                 LocalDateTime startOfNew = end.plusHours((long) random.nextInt(2)+1);
-                ReservationRepo.getInstance().add(
-                new Reservation(startOfNew, generateEndTime(startOfNew), user, LockerRepo.INSTANCE.getLockerById(lockerNo)));
-
+                reservationRepo.add(
+                new Reservation(startOfNew, generateEndTime(startOfNew), user, lockerRepo.getLockerById(lockerNo)));
             } else {
-
-                ReservationRepo.getInstance().add(
-                new Reservation(generateStartTime(now), generateEndTime(now), user, LockerRepo.INSTANCE.getLockerById(lockerNo)));
+                reservationRepo.add(
+                new Reservation(generateStartTime(now), generateEndTime(now), user, lockerRepo.getLockerById(lockerNo)));
             }
         }
     }

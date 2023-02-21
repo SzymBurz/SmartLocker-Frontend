@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public enum ReservationRepo {
-
-    INSTANCE;
+public class ReservationRepo {
 
 
-    LockerRepo lockerRepo = LockerRepo.INSTANCE;
+    @Autowired
+    LockerRepo lockerRepo;
+
+
     private List<Reservation> reservationsList = new ArrayList<>();
     public boolean add(Reservation reservation) {
         try {
@@ -46,10 +47,6 @@ public enum ReservationRepo {
 
     public List<Reservation> getReservationsList() {
         return reservationsList;
-    }
-
-    public static ReservationRepo getInstance() {
-        return INSTANCE;
     }
 
     public void clear() {

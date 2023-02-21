@@ -3,8 +3,8 @@ package com.smartlocker.service;
 import com.smartlocker.domain.User;
 import org.springframework.stereotype.Service;
 
-public enum LogingService {
-    INSTANCE;
+@Service
+public class LogingService {
 
     User demoUser = new User("Kiemoon", "1");
 
@@ -12,7 +12,4 @@ public enum LogingService {
         return demoUser;
     }
 
-    public static LogingService getInstance() {
-        return INSTANCE;
-    }
 }

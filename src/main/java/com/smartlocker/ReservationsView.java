@@ -16,12 +16,13 @@ import java.util.Comparator;
 @Route("Reservations")
 public class ReservationsView extends VerticalLayout {
 
-
+    @Autowired
+    LogingService logingService;
+    @Autowired
     BookingService bookingService;
     Grid<Reservation> reservationGrid;
 
-    public ReservationsView(BookingService bookingService) {
-        this.bookingService = bookingService;
+    public ReservationsView() {
         this.reservationGrid = new Grid<>(Reservation.class, false);
 
         add(reservationGrid);
@@ -36,7 +37,7 @@ public class ReservationsView extends VerticalLayout {
         reservationGrid.addColumn(r -> r.getLocker().getId()).setHeader("Locker");
         reservationGrid.addColumn(r -> r.getStart().format(formatter)).setHeader("Start");
         reservationGrid.addColumn(r -> r.getEnd().format(formatter)).setHeader("End");
-        reservationGrid.setItems(bookingService.getReservationsForUser(LogingService.getInstance().generateUserForDemo()));
+        reservationGrid.setItems(bookingService.getReservationsForUser(logingService.generateUserForDemo()));
     }
 
 }

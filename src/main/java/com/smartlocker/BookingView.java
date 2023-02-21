@@ -36,9 +36,9 @@ public class BookingView extends VerticalLayout {
     private List<LockerReservations> gridContent;
 
 
-    public BookingView(BookingService bookingService) {
+    public BookingView(BookingService bookingService, LogingService logingService) {
         this.bookingService = bookingService;
-        this.logingService = LogingService.INSTANCE;
+        this.logingService = logingService;
         this.header1 = new H2("Booking");
         this.periodGrid = new Grid<>(LockerReservations.class, false);
         this.header2 = new H2("Available Lockers");

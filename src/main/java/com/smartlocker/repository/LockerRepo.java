@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum LockerRepo {
-
-    INSTANCE;
+public class LockerRepo {
 
     private static List<Locker> lockerList = new ArrayList<>(generateExampleData());
     public void open(Locker locker, int userId) {
@@ -27,10 +25,6 @@ public enum LockerRepo {
         List<Locker> output = new ArrayList<>();
         output.addAll(lockerList.stream().filter(e -> e.getSize() == size).collect(Collectors.toList()));
         return output;
-    }
-
-    public static LockerRepo getInstance() {
-        return INSTANCE;
     }
 
     private static List<Locker> generateExampleData() {

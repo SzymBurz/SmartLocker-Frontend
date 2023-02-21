@@ -13,12 +13,14 @@ import java.time.LocalDateTime;
 
 public class ReservationRepoAndGeneratorTest {
 
+    @Autowired
+    LockerRepo lockerRepo;
+
     ReservationGenerator reservationGenerator = new ReservationGenerator();
 
     @Test
     public void repositoryGeneratorIntegrationTest() {
         ReservationRepo.getInstance().clear();
-        LockerRepo.getInstance();
         ReservationRepo.getInstance();
 
         reservationGenerator.generateExampleReservationData();
@@ -40,7 +42,7 @@ public class ReservationRepoAndGeneratorTest {
                         LocalDateTime.now(),
                         LocalDateTime.now().minusHours(1L),
                         user,
-                        LockerRepo.getInstance().getLockerById(1)
+                        lockerRepo.getLockerById(1)
                 )
         );
         Assertions.assertEquals(1, ReservationRepo.getInstance().getReservationsList().size());

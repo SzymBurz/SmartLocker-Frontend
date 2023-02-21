@@ -11,12 +11,18 @@ import com.smartlocker.service.BookingService;
 import com.smartlocker.service.LogingService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class BookingServiceTestSuite {
 
+    @Autowired
+    LogingService logingService;
+
+    @Autowired
+    ReservationRepo reservationRepo;
 
     ReservationGenerator reservationGenerator = new ReservationGenerator();
     BookingService bookingService = new BookingService();
@@ -24,22 +30,22 @@ public class BookingServiceTestSuite {
 
     @Test
     public void reservationsTest() {
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationRepo.getReservationsList().clear();
         reservationGenerator.generateExampleReservationData();
-        for(Reservation r :ReservationRepo.INSTANCE.getReservationsList()){
+        for(Reservation r :reservationRepo.getReservationsList()){
             System.out.println(r);
         }
-        Assertions.assertNotNull(ReservationRepo.INSTANCE.getReservationsList());
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        Assertions.assertNotNull(reservationRepo.getReservationsList());
+        reservationRepo.getReservationsList().clear();
     }
 
 
     @Test
     public void availabilityCheck() {
 
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationRepo.getReservationsList().clear();
         reservationGenerator.generateExampleReservationData();
-        for(Reservation r :ReservationRepo.INSTANCE.getReservationsList()){
+        for(Reservation r :reservationRepo.getReservationsList()){
             System.out.println(r);
         }
 
@@ -73,16 +79,16 @@ public class BookingServiceTestSuite {
             System.out.println(lrl);
         }
 
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationRepo.getReservationsList().clear();
     }
 
     @Test
     public void reservationsForUser() {
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationRepo.getReservationsList().clear();
         reservationGenerator.generateExampleReservationData();
-        List<Reservation> list = bookingService.getReservationsForUser(LogingService.getInstance().generateUserForDemo());
+        List<Reservation> list = bookingService.getReservationsForUser(logingService.generateUserForDemo());
         System.out.println(list);
-        ReservationRepo.INSTANCE.getReservationsList().clear();
+        reservationRepo.getReservationsList().clear();
     }
 
 

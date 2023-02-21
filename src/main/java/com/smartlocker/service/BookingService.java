@@ -3,6 +3,7 @@ package com.smartlocker.service;
 import com.smartlocker.domain.*;
 import com.smartlocker.repository.LockerRepo;
 import com.smartlocker.repository.ReservationRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,10 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class BookingService {
 
+    @Autowired
+    LockerRepo lockerRepo;
 
-    LockerRepo lockerRepo = LockerRepo.INSTANCE;
-
-    ReservationRepo reservationRepo = ReservationRepo.INSTANCE;
+    @Autowired
+    ReservationRepo reservationRepo;
 
     public boolean bookLocker(Locker locker, User user, LocalDateTime start, LocalDateTime end) {
         boolean output = true; //fixed for true for developing
