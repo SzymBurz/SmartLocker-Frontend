@@ -4,12 +4,14 @@ import com.smartlocker.domain.Locker;
 import com.smartlocker.domain.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class LockerRepo {
 
     private static List<Locker> lockerList = new ArrayList<>(generateExampleData());
