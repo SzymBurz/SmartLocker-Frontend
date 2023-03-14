@@ -2,27 +2,24 @@ package com.smartlocker.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Reservation {
+    int id;
     LocalDateTime start;
     LocalDateTime end;
     User user;
     Locker locker;
-    int reservationId;
 
     public Reservation(LocalDateTime start, LocalDateTime end, User user, Locker locker) {
         this.start = start;
         this.end = end;
         this.user = user;
         this.locker = locker;
-    }
-
-    public Reservation(int reservationId) {
-        this.reservationId = reservationId;
     }
 }

@@ -1,18 +1,15 @@
 package com.smartlocker.domain;
 
-import lombok.Data;
-import com.smartlocker.domain.Size;
+import lombok.*;
 
+@NoArgsConstructor
 @Data
 public class Locker {
-    final int id;
-    boolean open;
+    int id;
     Size size;
 
     public Locker(int id, Size size) {
         this.id = id;
         this.size = size;
     }
-
-
 }

@@ -1,14 +1,10 @@
 package com.smartlocker;
 
+import com.smartlocker.client.SmartLockerClient;
 import com.smartlocker.domain.Reservation;
-import com.smartlocker.service.BookingService;
-import com.smartlocker.service.LogingService;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -16,13 +12,11 @@ import java.util.Comparator;
 @Route("Reservations")
 public class ReservationsView extends VerticalLayout {
 
-    @Autowired
-    LogingService logingService;
-    @Autowired
-    BookingService bookingService;
+    SmartLockerClient smartLockerClient;
     Grid<Reservation> reservationGrid;
 
-    public ReservationsView() {
+    public ReservationsView(SmartLockerClient smartLockerClient) {
+        this.smartLockerClient = smartLockerClient;
         this.reservationGrid = new Grid<>(Reservation.class, false);
 
         add(reservationGrid);
@@ -33,11 +27,11 @@ public class ReservationsView extends VerticalLayout {
 
     private void configureGrid(DateTimeFormatter formatter) {
 
-        reservationGrid.addColumn(Reservation::getReservationId).setHeader("Id").setComparator(Comparator.comparing(Reservation::getReservationId));
+        reservationGrid.addColumn(Reservation::getId).setHeader("Id").setComparator(Comparator.comparing(Reservation::getId));
         reservationGrid.addColumn(r -> r.getLocker().getId()).setHeader("Locker");
         reservationGrid.addColumn(r -> r.getStart().format(formatter)).setHeader("Start");
         reservationGrid.addColumn(r -> r.getEnd().format(formatter)).setHeader("End");
-        reservationGrid.setItems(bookingService.getReservationsForUser(logingService.generateUserForDemo()));
+        reservationGrid.setItems(smartLockerClient.getReservationsForUser(smartLockerClient.getDemoUser()));
     }
 
 }

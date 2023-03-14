@@ -9,7 +9,7 @@ defaultTasks("clean", "build")
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = "1.9"
 
 repositories {
 	mavenCentral()
@@ -36,6 +36,7 @@ dependencies {
 	}
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 dependencyManagement {
@@ -52,3 +53,4 @@ vaadin {
 	pnpmEnable = false
 	productionMode = true
 }
+targetCompatibility = JavaVersion.VERSION_1_9

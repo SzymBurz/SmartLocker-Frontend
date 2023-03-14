@@ -6,10 +6,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LockerReservations {
     Locker locker;
+
     List<Reservation> reservations;
 
     public LockerReservations(List<Reservation> reservations) {
@@ -17,7 +19,6 @@ public class LockerReservations {
 
         if(!reservations.isEmpty()){
             this.locker = reservations.get(0).getLocker();
-
         }
     }
 
@@ -33,6 +34,7 @@ public class LockerReservations {
 
         if (!reservations.isEmpty()) {
 
+
             StringBuilder stringBuilder = new StringBuilder();
 
             for (Reservation r : reservations) {
@@ -40,10 +42,13 @@ public class LockerReservations {
             }
 
             return stringBuilder.toString();
+
+
         } else {
             return "no reservations";
         }
     }
+
 
     @Override
     public String toString() {
@@ -53,4 +58,7 @@ public class LockerReservations {
         stringBuilder.append(reservationsToString());
         return  stringBuilder.toString();
     }
+
+
+
 }

@@ -1,10 +1,7 @@
 package com.smartlocker;
 
+import com.smartlocker.client.SmartLockerClient;
 import com.smartlocker.domain.LockerReservations;
-import com.smartlocker.repository.LockerRepo;
-import com.smartlocker.repository.ReservationRepo;
-import com.smartlocker.service.BookingService;
-import com.smartlocker.service.LogingService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -14,6 +11,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.smartlocker.domain.Size;
+import lombok.SneakyThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,9 +19,7 @@ import java.util.List;
 
 @Route("Booking")
 public class BookingView extends VerticalLayout {
-
-    private BookingService bookingService;
-    private LogingService logingService;
+    private SmartLockerClient smartLockerClient;
     private H2 header1;
     private Grid<LockerReservations> periodGrid;
     private H2 header2;
@@ -36,9 +32,8 @@ public class BookingView extends VerticalLayout {
     private List<LockerReservations> gridContent;
 
 
-    public BookingView(BookingService bookingService, LogingService logingService) {
-        this.bookingService = bookingService;
-        this.logingService = logingService;
+    public BookingView(SmartLockerClient smartLockerClient) {
+        this.smartLockerClient = smartLockerClient;
         this.header1 = new H2("Booking");
         this.periodGrid = new Grid<>(LockerReservations.class, false);
         this.header2 = new H2("Available Lockers");
@@ -73,7 +68,7 @@ public class BookingView extends VerticalLayout {
 
     //TODO
     private void configureButton() {
-        book.addClickListener(e ->  { bookingService.bookLocker(periodGrid.asSingleSelect().getValue().getLocker(), logingService.generateUserForDemo(), start.getValue(), end.getValue());
+        book.addClickListener(e ->  { smartLockerClient.bookLocker(periodGrid.asSingleSelect().getValue().getLocker(), smartLockerClient.getDemoUser(), start.getValue(), end.getValue());
         dialog2.setOpened(true);
         start.setReadOnly(true);
         end.setReadOnly(true);
@@ -103,12 +98,13 @@ public class BookingView extends VerticalLayout {
         periodGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
     }
 
+    @SneakyThrows
     private void refreshGrid() {
         if((!size.isEmpty() && !start.isEmpty() && !end.isEmpty()) && start.getValue().isAfter(end.getValue())) {
             dialog.setOpened(true);
         } else if ((!size.isEmpty() && !start.isEmpty() && !end.isEmpty()) && start.getValue().isBefore(end.getValue())) {
             gridContent.clear();
-            gridContent.addAll(bookingService.availabilityCheckGeneral(size.getValue(), start.getValue(), end.getValue()));
+            gridContent.addAll(smartLockerClient.getReservationsCheck(size.getValue(), start.getValue(), end.getValue()));
             periodGrid.setItems(gridContent);
         }
     }
